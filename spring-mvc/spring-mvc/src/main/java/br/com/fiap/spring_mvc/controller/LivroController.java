@@ -35,6 +35,9 @@ public class LivroController {
 
     @PostMapping("/cadastrar")
     public String cadastrarLivro(Livro livro, Model model) {
+        if (result.hasErrors()) {
+            return "livroCadastro";
+        }
         livroService.createLivro(livro);
         return "livroLista";
     }
