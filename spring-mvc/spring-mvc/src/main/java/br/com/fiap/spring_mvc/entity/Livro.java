@@ -2,28 +2,45 @@ package br.com.fiap.spring_mvc.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 public class Livro {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank(message = "O título é obrigatório")
     private String titulo;
+
     @NotBlank(message = "O autor é obrigatório")
     private String autor;
+
     @Enumerated(EnumType.STRING)
     @NotNull(message = "A categoria é obrigatória")
     private Categoria categoria;
+
+    @NotBlank(message = "A editora é obrigatória")
     private String editora;
+
+    @NotNull(message = "O preço é obrigatório")
     @DecimalMin(value = "0.99", message = "O preço deve ser no mínimo 0.99")
+    @Digits(integer = 9, fraction = 2, message = "Preço com no máximo 2 casas decimais")
     private BigDecimal preco;
-    @Pattern(regexp = "^970\\d{7}$|^970\\d{10}$",
-            message = "ISBN fora do padrão")
+
+    @Pattern(
+            regexp = "^970\\d{7}$|^970\\d{10}$", // mantenho sua regra atual
+            message = "ISBN fora do padrão"
+    )
     private String isbn;
+
+    @NotNull(message = "A data é obrigatória")
+    @PastOrPresent(message = "A data não pode ser futura")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) // ajuda no binding yyyy-MM-dd
     private LocalDate dataPublicacao;
 
     public Long getId() {
