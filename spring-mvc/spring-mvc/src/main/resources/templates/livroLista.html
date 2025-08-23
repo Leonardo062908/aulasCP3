@@ -26,6 +26,11 @@
             <td th:text="${livro.id}"></td>
             <td th:text="${livro.titulo}"></td>
             <td>
+                <button th:attr="onclick=|showModal('infoModal', ${liveo.id})">
+                        Ver
+                </button>
+            </td>
+            <td>
                 <a th:href="@{'/livros/' + ${livro.id}}" class="btn btn-sm btn-primary">
                     Ver Detalhes
                 </a>
